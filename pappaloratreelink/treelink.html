@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pappaloro Furniture</title>
+  <style>
+    :root{
+      --glass-bg: rgba(255,255,255,0.15);
+      --glass-stroke: rgba(255,255,255,0.35);
+      --glass-hover: rgba(255,255,255,0.30);
+      --text-main: #ffffff;
+      --text-muted:#d7d7d7;
+      --chip-bg: rgba(255,255,255,0.18);
+      --chip-hover: rgba(255,255,255,0.32);
+      --shadow-1: 0 8px 30px rgba(0,0,0,0.25);
+      --shadow-2: 0 10px 28px rgba(0,0,0,0.30);
+      --accent: #eaeaea;
+    }
+
+    *{box-sizing:border-box; margin:0; padding:0}
+
+    body{
+      margin:0;
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:#000;
+      color:var(--text-main);
+      overflow-x:hidden;
+    }
+
+    /* Background */
+    .background{
+      position:fixed; inset:0;
+      background:
+        radial-gradient(circle at 20% 30%, #c5c5c5 0%, transparent 70%),
+        radial-gradient(circle at 80% 40%, #c5c5c5 0%, transparent 70%),
+        radial-gradient(circle at 50% 80%, #c5c5c5 0%, transparent 70%);
+      background-repeat:no-repeat;
+      background-size:200% 200%;
+      animation: liquidMove 30s ease-in-out infinite;
+      z-index:0;
+      filter:saturate(70%);
+    }
+    @keyframes liquidMove{
+      0%   { background-position: 0% 50%, 100% 50%, 50% 100%; }
+      50%  { background-position: 100% 30%, 0% 70%, 60% 0%; }
+      100% { background-position: 0% 50%, 100% 50%, 50% 100%; }
+    }
+
+    /* Card container */
+    .card{
+      position:relative;
+      z-index:1;
+      width:min(95vw, 1000px);
+      border-radius:24px;
+      background:var(--glass-bg);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border:1px solid var(--glass-stroke);
+      box-shadow: var(--shadow-1);
+      padding: 32px;
+      text-align:center;
+      animation: fadeIn 0.9s ease both;
+      display:flex;
+      flex-direction:column;
+      gap:20px;
+    }
+    @keyframes fadeIn{
+      from{opacity:0; transform:translateY(16px)}
+      to{opacity:1; transform:translateY(0)}
+    }
+
+    /* Desktop layout*/
+    @media (min-width:1024px){
+      .card{
+        flex-direction: row;
+        align-items: flex-start;
+        text-align:left;
+        padding: 40px;
+        gap:40px;
+      }
+      .logo-wrap{
+        flex:1;
+        display:flex;
+        justify-content:center;
+        align-items:flex-start;
+      }
+      .content{
+        flex:2;
+      }
+    }
+
+    /* Logo animated */
+    .logo{
+      width:140px; height:140px; border-radius:50%;
+      object-fit:cover;
+      border:3px solid var(--glass-stroke);
+      background:rgba(255,255,255,0.18);
+      backdrop-filter: blur(6px);
+      box-shadow:0 0 25px rgba(255,255,255,0.5);
+      margin-bottom:12px;
+      animation: float 6s ease-in-out infinite, glow 3s infinite alternate;
+    }
+    @keyframes float{
+      0%,100%{ transform:translateY(0) }
+      50%{ transform:translateY(-8px) }
+    }
+    @keyframes glow {
+      from { box-shadow:0 0 15px rgba(255,255,255,0.4); }
+      to   { box-shadow:0 0 30px rgba(255,255,255,0.9); }
+    }
+
+    h1{margin:0; font-size:26px;}
+    .tagline{margin:6px 0 20px; color:var(--text-muted); font-size:15px;}
+
+    /* Links section */
+    .links{
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+      margin:20px 0;
+    }
+    .btn-link{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding:14px;
+      border-radius:50px;
+      text-decoration:none;
+      background:var(--chip-bg);
+      border:1px solid var(--glass-stroke);
+      color:#111;
+      font-weight:600;
+      backdrop-filter: blur(10px);
+      transition:.25s;
+    }
+    .btn-link:hover{
+      background:var(--chip-hover);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-2);
+    }
+
+    /* Shop button */
+    .btn-shop{
+      background: linear-gradient(135deg, #ffffff, #eaeaea);
+      color:#000;
+      font-weight:700;
+      box-shadow:0 0 18px rgba(255,255,255,0.6);
+      animation: pulseShop 2s infinite ease-in-out;
+      position: relative;
+      overflow: hidden;
+    }
+    @keyframes pulseShop {
+      0%,100%{ transform:scale(1); box-shadow:0 0 18px rgba(255,255,255,0.6);}
+      50%{ transform:scale(1.06); box-shadow:0 0 28px rgba(255,255,255,0.9);}
+    }
+
+    /* Cart Icon */
+    .cart-img{
+      height:20px; width:30px;
+      animation: bounce 2s infinite ease-in-out;
+      transition: transform 0.4s ease;
+    }
+    @keyframes bounce {
+      0%,100%{ transform: translateY(0); }
+      50%{ transform: translateY(-4px); }
+    }
+    .btn-shop:hover .cart-img{
+      animation: walk 1s infinite linear;
+    }
+    @keyframes walk {
+      0%   { transform: translateX(0) rotate(0deg); }
+      25%  { transform: translateX(3px) rotate(-10deg); }
+      50%  { transform: translateX(6px) rotate(10deg); }
+      75%  { transform: translateX(9px) rotate(-10deg); }
+      100% { transform: translateX(12px) rotate(0deg); }
+    }
+
+    /* Grid for other buttons */
+    .grid-links{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:14px;
+      margin-top:14px;
+    }
+    @media (min-width:1024px){
+      .grid-links{ grid-template-columns:1fr 1fr; }
+    }
+
+    /* Desktop buttons */
+    @media (min-width:1024px){
+      .btn-link{ padding:18px 22px; font-size:17px; }
+      .btn-shop{ font-size:18px; padding:20px 26px; }
+      .cart-img{ height:24px; width:34px; }
+    }
+
+    /* Info */
+    .info{ margin-top:25px; }
+    .address{ font-size:14px; color:var(--text-muted); margin-bottom:6px;}
+    .phone a{ font-size:15px; color:var(--accent); text-decoration:none; display:block; margin-bottom:6px;}
+    .social{ display:flex; justify-content:center; gap:14px; margin-top:12px;}
+    @media (min-width:1024px){ .social{justify-content:flex-start;} }
+    .social a{
+      width:40px; height:40px;
+      display:flex; align-items:center; justify-content:center;
+      border-radius:50%;
+      background: rgba(255,255,255,0.18);
+      border:1px solid var(--glass-stroke);
+      color:#fff;
+      font-size:18px;
+      transition:.3s;
+    }
+    .social a:hover{ transform:translateY(-3px) scale(1.1); background:var(--glass-hover) }
+  </style>
+</head>
+<body>
+  <div class="background"></div>
+
+  <main class="card">
+    <!-- Logo -->
+    <div class="logo-wrap">
+      <img class="logo" src="img/372974233_791890882728786_182306087541342255_n-removebg-preview.png" alt="Logo"/>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+      <h1>Pappaloro Furniture</h1>
+      <p class="tagline">Modern & Elegant Furniture for Your Home</p>
+
+      <div class="links">
+        <!-- Shop Button -->
+        <a href="https://pappaloro.com/" class="btn-link btn-shop">
+          Shop 
+          <img class="cart-img" src="img/shopping-cart-icon-shopping-basket-on-transparent-background-free-png-removebg-preview.png" alt="cart">
+        </a>
+
+        <!-- other buttons -->
+        <div class="grid-links">
+          <a href="https://pappaloro.com/product-category/bedrooms/" class="btn-link">Bedrooms</a>
+          <a href="https://pappaloro.com/product-category/closets/" class="btn-link">Closets</a>
+          <a href="https://pappaloro.com/product-category/coffee-tables/" class="btn-link">Coffee Tables</a>
+          <a href="https://pappaloro.com/product-category/consoles/" class="btn-link">Consoles</a>
+          <a href="https://pappaloro.com/product-category/dining-tables/" class="btn-link">Dining Tables</a>
+          <a href="https://pappaloro.com/product-category/seatings/" class="btn-link">Seating's</a>
+          <a href="https://pappaloro.com/product-category/media-units/" class="btn-link">Media Units</a>
+          <a href="https://pappaloro.com/product-category/outdoor/" class="btn-link">Outdoor</a>
+        </div>
+      </div>
+
+      <!-- Contact / Social / Map -->
+      <div class="info">
+        <p class="address">📍 7 Mohamed Sabri Ali, Almazah, Heliopolis, Cairo Governorate 4460342, Egypt</p>
+        <p class="phone"><a href="tel:01110860333">01110860333</a></p>
+
+        <div class="social">
+          <a href="https://web.facebook.com/Pappaloro"><img src="img/face.png" height="30" width="30" alt="Facebook"></a>
+          <a href="https://www.instagram.com/pappaloro/"><img src="img/insta.png" height="25" width="25" alt="Instagram"></a>
+          <a href="https://x.com/pappaloro?s=21"><img src="img/x.png" height="30" width="30" alt="X"></a>
+          <a href="https://wa.me/01110860333"><img src="img/wA.png" height="30" width="30" alt="WhatsApp"></a>
+        </div>
+
+        <!-- Map -->
+        <div class="location" style="margin-top:25px;">
+          <h3 style="font-size:18px; font-weight:600; color:#fff; margin-bottom:10px;">
+            📍 Find Us: 7 Mohamed Sabri Ali, Almazah, Heliopolis, Cairo Governorate 4460342, Egypt
+          </h3>
+          <div style="width:100%; max-width:600px; border-radius:12px; overflow:hidden; box-shadow:0 2px 6px rgba(0,0,0,0.3);">
+            <iframe 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3532.9193303883926!2d31.3327977!3d30.093820299999994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14581550f8777da1%3A0xd4e04584cf620639!2sPappaloro%20Furniture%20-%20Heliopolis!5e1!3m2!1sen!2seg!4v1756263834588!5m2!1sen!2seg"
+              width="100%" 
+              height="250" 
+              style="border:0;" 
+              allowfullscreen="" 
+              loading="lazy">
+            </iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
